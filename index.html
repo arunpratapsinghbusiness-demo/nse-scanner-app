@@ -1,0 +1,772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
+<meta name="theme-color" content="#0a0f1e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="NSE Scanner">
+<link rel="manifest" href="manifest.json">
+<title>NSE Scanner</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=JetBrains+Mono:wght@400;500&display=swap');
+
+  /* ── Token System ─────────────────────────────────────────── */
+  :root {
+    --bg:          #0a0f1e;
+    --bg2:         #111827;
+    --bg3:         #1a2235;
+    --border:      rgba(255,255,255,0.07);
+    --green:       #00e676;
+    --green-dim:   rgba(0,230,118,0.12);
+    --green-glow:  rgba(0,230,118,0.25);
+    --red:         #ff4d6d;
+    --red-dim:     rgba(255,77,109,0.12);
+    --amber:       #ffb300;
+    --amber-dim:   rgba(255,179,0,0.12);
+    --blue:        #448aff;
+    --blue-dim:    rgba(68,138,255,0.12);
+    --text:        #f0f4ff;
+    --text2:       #8899bb;
+    --text3:       #4a5568;
+    --mono:        'JetBrains Mono', monospace;
+    --sans:        'Inter', sans-serif;
+    --radius:      14px;
+    --radius-sm:   8px;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; -webkit-tap-highlight-color: transparent; }
+  html, body { height: 100%; background: var(--bg); color: var(--text); font-family: var(--sans); overflow: hidden; }
+
+  /* ── Shell ────────────────────────────────────────────────── */
+  .shell {
+    display: flex; flex-direction: column;
+    height: 100dvh; max-width: 430px; margin: 0 auto;
+    position: relative; overflow: hidden;
+  }
+
+  /* ── Status bar ───────────────────────────────────────────── */
+  .statusbar {
+    display: flex; justify-content: space-between; align-items: center;
+    padding: 12px 20px 6px;
+    font-size: 12px; font-weight: 600; color: var(--text2);
+    flex-shrink: 0;
+  }
+  .statusbar .live-dot {
+    display: inline-flex; align-items: center; gap: 5px;
+    color: var(--green); font-size: 11px;
+  }
+  .statusbar .live-dot::before {
+    content: ''; width: 6px; height: 6px; border-radius: 50%;
+    background: var(--green);
+    box-shadow: 0 0 8px var(--green);
+    animation: pulse 2s infinite;
+  }
+  @keyframes pulse { 0%,100%{opacity:1} 50%{opacity:.4} }
+
+  /* ── Header ───────────────────────────────────────────────── */
+  .header {
+    padding: 6px 20px 14px;
+    flex-shrink: 0;
+  }
+  .header h1 {
+    font-size: 22px; font-weight: 700; letter-spacing: -0.5px;
+    color: var(--text);
+  }
+  .header .sub {
+    font-size: 12px; color: var(--text2); margin-top: 2px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .regime-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 2px 8px; border-radius: 20px;
+    background: var(--green-dim); border: 1px solid rgba(0,230,118,0.2);
+    color: var(--green); font-size: 11px; font-weight: 600;
+  }
+
+  /* ── Scroll area ──────────────────────────────────────────── */
+  .scroll-area {
+    flex: 1; overflow-y: auto; padding: 0 16px;
+    scroll-snap-type: y proximity;
+    -webkit-overflow-scrolling: touch;
+  }
+  .scroll-area::-webkit-scrollbar { display: none; }
+
+  /* ── Section label ────────────────────────────────────────── */
+  .section-label {
+    font-size: 11px; font-weight: 600; letter-spacing: .08em;
+    color: var(--text3); text-transform: uppercase;
+    margin: 18px 0 10px;
+  }
+
+  /* ── Today's scan row ─────────────────────────────────────── */
+  .scan-time-row {
+    background: var(--bg3); border-radius: var(--radius);
+    border: 1px solid var(--border);
+    padding: 12px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+    margin-bottom: 14px;
+  }
+  .scan-time-row .left { font-size: 13px; color: var(--text2); }
+  .scan-time-row .left strong { color: var(--text); display: block; font-size: 15px; }
+  .scan-btn {
+    background: var(--green); color: #000;
+    border: none; border-radius: var(--radius-sm);
+    padding: 8px 16px; font-size: 13px; font-weight: 700;
+    font-family: var(--sans); cursor: pointer;
+    transition: opacity .15s;
+  }
+  .scan-btn:active { opacity: .7; }
+
+  /* ── Signal card ──────────────────────────────────────────── */
+  .signal-card {
+    background: var(--bg2);
+    border: 1px solid var(--border);
+    border-radius: var(--radius);
+    margin-bottom: 12px;
+    overflow: hidden;
+    transition: transform .15s;
+    cursor: pointer;
+    scroll-snap-align: start;
+  }
+  .signal-card:active { transform: scale(.98); }
+
+  .card-top {
+    padding: 14px 16px 12px;
+    border-bottom: 1px solid var(--border);
+  }
+  .card-header {
+    display: flex; align-items: center;
+    justify-content: space-between; margin-bottom: 10px;
+  }
+  .card-symbol {
+    display: flex; align-items: center; gap: 8px;
+  }
+  .dir-chip {
+    width: 28px; height: 28px; border-radius: 8px;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 14px; font-weight: 700;
+  }
+  .dir-buy  { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,230,118,.2); }
+  .dir-sell { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(255,77,109,.2); }
+
+  .sym-name { font-size: 17px; font-weight: 700; color: var(--text); }
+  .sym-sec  { font-size: 11px; color: var(--text2); margin-top: 1px; }
+
+  .score-ring {
+    display: flex; flex-direction: column;
+    align-items: center; gap: 1px;
+  }
+  .score-num {
+    font-size: 20px; font-weight: 700;
+    font-family: var(--mono);
+    line-height: 1;
+  }
+  .score-lbl { font-size: 9px; color: var(--text3); letter-spacing: .06em; }
+  .score-a { color: var(--green); }
+  .score-b { color: var(--amber); }
+
+  /* Price grid */
+  .price-grid {
+    display: grid; grid-template-columns: repeat(4,1fr);
+    gap: 0;
+  }
+  .price-cell { padding: 0 0 2px; }
+  .price-cell .lbl {
+    font-size: 10px; color: var(--text3);
+    text-transform: uppercase; letter-spacing: .05em;
+  }
+  .price-cell .val {
+    font-size: 13px; font-weight: 600;
+    font-family: var(--mono); color: var(--text);
+    margin-top: 2px;
+  }
+  .price-cell .val.green { color: var(--green); }
+  .price-cell .val.red   { color: var(--red); }
+
+  /* Card bottom strip */
+  .card-bottom {
+    padding: 10px 16px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .card-stats {
+    display: flex; gap: 12px;
+  }
+  .stat-item { font-size: 11px; color: var(--text2); }
+  .stat-item strong { color: var(--text); font-weight: 600; }
+
+  /* Status badge */
+  .status-badge {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 3px 10px; border-radius: 20px;
+    font-size: 11px; font-weight: 600;
+  }
+  .st-tracking { background: var(--amber-dim); color: var(--amber); border: 1px solid rgba(255,179,0,.2); }
+  .st-tp1      { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,230,118,.2); }
+  .st-tp2      { background: var(--green-dim); color: var(--green); border: 1px solid rgba(0,230,118,.2); }
+  .st-sl       { background: var(--red-dim);   color: var(--red);   border: 1px solid rgba(255,77,109,.2); }
+
+  /* Reason tags */
+  .reasons {
+    padding: 0 16px 12px;
+    display: flex; flex-wrap: wrap; gap: 5px;
+  }
+  .reason-tag {
+    font-size: 11px; color: var(--text2);
+    background: var(--bg3); border: 1px solid var(--border);
+    padding: 3px 8px; border-radius: 20px;
+  }
+
+  /* ── KPI row ──────────────────────────────────────────────── */
+  .kpi-row {
+    display: grid; grid-template-columns: repeat(3,1fr);
+    gap: 8px; margin-bottom: 14px;
+  }
+  .kpi-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px;
+    text-align: center;
+  }
+  .kpi-card .kv {
+    font-size: 20px; font-weight: 700;
+    font-family: var(--mono); line-height: 1;
+  }
+  .kpi-card .kl {
+    font-size: 10px; color: var(--text3);
+    margin-top: 4px; text-transform: uppercase; letter-spacing: .05em;
+  }
+  .kv-green { color: var(--green); }
+  .kv-red   { color: var(--red); }
+  .kv-amber { color: var(--amber); }
+
+  /* ── Mini chart placeholder ───────────────────────────────── */
+  .chart-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 16px;
+    margin-bottom: 14px;
+  }
+  .chart-title {
+    font-size: 12px; font-weight: 600; color: var(--text2);
+    margin-bottom: 12px;
+    display: flex; justify-content: space-between;
+  }
+  .chart-area {
+    height: 80px; position: relative;
+    display: flex; align-items: flex-end; gap: 4px;
+  }
+  .bar {
+    flex: 1; border-radius: 4px 4px 0 0;
+    transition: opacity .2s;
+  }
+  .bar:active { opacity: .7; }
+  .bar-pos { background: var(--green); }
+  .bar-neg { background: var(--red); }
+  .chart-labels {
+    display: flex; gap: 4px; margin-top: 6px;
+  }
+  .chart-labels span {
+    flex: 1; text-align: center;
+    font-size: 9px; color: var(--text3);
+  }
+
+  /* ── Insight card ─────────────────────────────────────────── */
+  .insight-card {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 14px 16px;
+    margin-bottom: 12px;
+  }
+  .insight-row {
+    display: flex; align-items: flex-start; gap: 10px;
+    padding: 6px 0; border-bottom: 1px solid var(--border);
+  }
+  .insight-row:last-child { border-bottom: none; padding-bottom: 0; }
+  .insight-icon { font-size: 16px; flex-shrink: 0; margin-top: 1px; }
+  .insight-text { font-size: 12px; color: var(--text2); line-height: 1.5; }
+  .insight-text strong { color: var(--text); }
+
+  /* ── Bottom nav ───────────────────────────────────────────── */
+  .bottom-nav {
+    display: flex; background: var(--bg2);
+    border-top: 1px solid var(--border);
+    padding: 8px 0 max(8px, env(safe-area-inset-bottom));
+    flex-shrink: 0;
+  }
+  .nav-item {
+    flex: 1; display: flex; flex-direction: column;
+    align-items: center; gap: 3px; padding: 6px 0;
+    cursor: pointer; border: none; background: none;
+    font-family: var(--sans);
+    transition: opacity .15s;
+  }
+  .nav-item:active { opacity: .6; }
+  .nav-icon { font-size: 22px; line-height: 1; }
+  .nav-label { font-size: 10px; font-weight: 500; color: var(--text3); }
+  .nav-item.active .nav-icon { filter: drop-shadow(0 0 6px var(--green)); }
+  .nav-item.active .nav-label { color: var(--green); }
+
+  /* ── Pages ────────────────────────────────────────────────── */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* ── Regime bar ───────────────────────────────────────────── */
+  .regime-bar {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius); padding: 12px 16px;
+    margin-bottom: 14px;
+    display: flex; align-items: center; justify-content: space-between;
+  }
+  .regime-info .title { font-size: 11px; color: var(--text3); }
+  .regime-info .val   { font-size: 15px; font-weight: 700; color: var(--green); margin-top: 2px; }
+  .regime-meta { text-align: right; font-size: 11px; color: var(--text2); }
+  .regime-meta .adx { font-family: var(--mono); color: var(--amber); font-size: 13px; font-weight: 600; }
+
+  /* ── History list ─────────────────────────────────────────── */
+  .hist-item {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius-sm); padding: 12px 14px;
+    margin-bottom: 8px;
+    display: flex; align-items: center; gap: 12px;
+  }
+  .hist-left { flex: 1; }
+  .hist-sym  { font-size: 14px; font-weight: 600; }
+  .hist-date { font-size: 11px; color: var(--text3); margin-top: 2px; }
+  .hist-pnl  { font-family: var(--mono); font-size: 15px; font-weight: 700; }
+  .hist-outcome { font-size: 11px; margin-top: 2px; }
+
+  /* ── Settings list ────────────────────────────────────────── */
+  .settings-group {
+    background: var(--bg2); border: 1px solid var(--border);
+    border-radius: var(--radius); overflow: hidden;
+    margin-bottom: 14px;
+  }
+  .settings-row {
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 14px 16px; border-bottom: 1px solid var(--border);
+    cursor: pointer;
+  }
+  .settings-row:last-child { border-bottom: none; }
+  .settings-row .label { font-size: 14px; color: var(--text); }
+  .settings-row .value { font-size: 13px; color: var(--text2); }
+  .toggle {
+    width: 44px; height: 26px; border-radius: 13px;
+    background: var(--green); position: relative; cursor: pointer;
+    flex-shrink: 0;
+  }
+  .toggle::after {
+    content: ''; position: absolute;
+    width: 20px; height: 20px; border-radius: 50%;
+    background: white; top: 3px; right: 3px;
+    transition: transform .2s;
+  }
+  .toggle.off { background: var(--bg3); }
+  .toggle.off::after { transform: translateX(-18px); }
+</style>
+</head>
+<body>
+
+<div class="shell">
+
+  <!-- Status bar -->
+  <div class="statusbar">
+    <span>9:25 AM</span>
+    <span class="live-dot">LIVE</span>
+    <span>📶 🔋</span>
+  </div>
+
+  <!-- Header -->
+  <div class="header">
+    <h1>NSE Scanner</h1>
+    <div class="sub">
+      <span class="regime-badge">📈 Trending Up</span>
+      <span>28 Jun 2026</span>
+    </div>
+  </div>
+
+  <!-- Scroll area -->
+  <div class="scroll-area">
+
+    <!-- ══ PAGE: HOME ══════════════════════════════════════════ -->
+    <div class="page active" id="page-home">
+
+      <!-- Scan time row -->
+      <div class="scan-time-row">
+        <div class="left">
+          <span>Next scan</span>
+          <strong>Tomorrow 9:25 AM</strong>
+        </div>
+        <button class="scan-btn" onclick="triggerScan()">Scan Now</button>
+      </div>
+
+      <div class="section-label">Today's Signals</div>
+
+      <!-- Signals render here from data/signals.json (real, produced by
+           scripts/daily_scan.py via the daily GitHub Action) -->
+      <div id="signals-container">
+        <div class="insight-card" id="signals-loading">
+          <div class="insight-row"><div class="insight-text">Loading today's signals…</div></div>
+        </div>
+      </div>
+
+      <div style="height:16px"></div>
+    </div>
+
+    <!-- ══ PAGE: PERFORMANCE ═══════════════════════════════════ -->
+    <div class="page" id="page-perf">
+
+      <div class="section-label">Last 30 Days</div>
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kv kv-green">63%</div>
+          <div class="kl">Win Rate</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kv kv-green">₹24.5k</div>
+          <div class="kl">Total P&L</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kv kv-amber">1.8x</div>
+          <div class="kl">Profit Factor</div>
+        </div>
+      </div>
+      <div class="kpi-row">
+        <div class="kpi-card">
+          <div class="kv">58%</div>
+          <div class="kl">TP1 Rate</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kv">21%</div>
+          <div class="kl">TP2 Rate</div>
+        </div>
+        <div class="kpi-card">
+          <div class="kv kv-red">37%</div>
+          <div class="kl">SL Rate</div>
+        </div>
+      </div>
+
+      <div class="section-label">Daily P&L (₹)</div>
+      <div class="chart-card">
+        <div class="chart-title">
+          <span>Last 14 trading days</span>
+          <span style="color:var(--green)">+₹24,500</span>
+        </div>
+        <div class="chart-area" id="chart"></div>
+        <div class="chart-labels" id="chart-labels"></div>
+      </div>
+
+      <div class="section-label">Insights</div>
+      <div class="insight-card">
+        <div class="insight-row">
+          <div class="insight-icon">📈</div>
+          <div class="insight-text"><strong>IT sector</strong> mein best performance — 78% win rate over 9 signals</div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-icon">⏰</div>
+          <div class="insight-text"><strong>Opening (9:25–10:30)</strong> ke signals strongest — 71% TP1 hit rate</div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-icon">📊</div>
+          <div class="insight-text">Score <strong>≥75</strong> signals: 80% win rate — <strong>≥75 = most reliable</strong></div>
+        </div>
+        <div class="insight-row">
+          <div class="insight-icon">⚡</div>
+          <div class="insight-text"><strong>Volume 2x+</strong> on wins every time — key confirmation signal</div>
+        </div>
+      </div>
+
+      <div style="height:16px"></div>
+    </div>
+
+    <!-- ══ PAGE: HISTORY ═══════════════════════════════════════ -->
+    <div class="page" id="page-hist">
+
+      <div class="section-label">Signal History</div>
+
+      <div class="hist-item">
+        <div class="hist-left">
+          <div class="hist-sym">🟢 TCS — BUY</div>
+          <div class="hist-date">27 Jun 2026 · 9:25 AM · 89 min</div>
+        </div>
+        <div style="text-align:right">
+          <div class="hist-pnl" style="color:var(--green)">+₹10,692</div>
+          <div class="hist-outcome">🏆 TP2 Hit · +6.0%</div>
+        </div>
+      </div>
+
+      <div class="hist-item">
+        <div class="hist-left">
+          <div class="hist-sym">🟢 INFY — BUY</div>
+          <div class="hist-date">27 Jun 2026 · 9:25 AM · 73 min</div>
+        </div>
+        <div style="text-align:right">
+          <div class="hist-pnl" style="color:var(--green)">+₹5,436</div>
+          <div class="hist-outcome">✅ TP1 Hit · +3.2%</div>
+        </div>
+      </div>
+
+      <div class="hist-item">
+        <div class="hist-left">
+          <div class="hist-sym">🟢 WIPRO — BUY</div>
+          <div class="hist-date">27 Jun 2026 · 9:25 AM · 31 min</div>
+        </div>
+        <div style="text-align:right">
+          <div class="hist-pnl" style="color:var(--red)">-₹3,000</div>
+          <div class="hist-outcome">❌ SL Hit · -2.3%</div>
+        </div>
+      </div>
+
+      <div class="hist-item">
+        <div class="hist-left">
+          <div class="hist-sym">🟢 RELIANCE — BUY</div>
+          <div class="hist-date">26 Jun 2026 · 9:25 AM · 47 min</div>
+        </div>
+        <div style="text-align:right">
+          <div class="hist-pnl" style="color:var(--green)">+₹3,744</div>
+          <div class="hist-outcome">✅ TP1 Hit · +2.7%</div>
+        </div>
+      </div>
+
+      <div class="hist-item">
+        <div class="hist-left">
+          <div class="hist-sym">🟢 ICICIBANK — BUY</div>
+          <div class="hist-date">26 Jun 2026 · 9:25 AM · 55 min</div>
+        </div>
+        <div style="text-align:right">
+          <div class="hist-pnl" style="color:var(--green)">+₹1,200</div>
+          <div class="hist-outcome">✅ TP1 Hit · +5.5%</div>
+        </div>
+      </div>
+
+      <div class="hist-item">
+        <div class="hist-left">
+          <div class="hist-sym">🟢 HDFCBANK — BUY</div>
+          <div class="hist-date">25 Jun 2026 · 9:25 AM · 120 min</div>
+        </div>
+        <div style="text-align:right">
+          <div class="hist-pnl" style="color:var(--amber)">+₹120</div>
+          <div class="hist-outcome">⌛ Timeout · +0.1%</div>
+        </div>
+      </div>
+
+      <div style="height:16px"></div>
+    </div>
+
+    <!-- ══ PAGE: SETTINGS ══════════════════════════════════════ -->
+    <div class="page" id="page-settings">
+
+      <div class="section-label">Scanner Config</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <span class="label">Server IP</span>
+          <span class="value">192.168.1.5:8000</span>
+        </div>
+        <div class="settings-row">
+          <span class="label">Capital</span>
+          <span class="value">₹5,00,000</span>
+        </div>
+        <div class="settings-row">
+          <span class="label">Price Range</span>
+          <span class="value">₹500 – ₹2,000</span>
+        </div>
+        <div class="settings-row">
+          <span class="label">Min Score</span>
+          <span class="value">65 (auto)</span>
+        </div>
+        <div class="settings-row">
+          <span class="label">Top Signals</span>
+          <span class="value">3 per day</span>
+        </div>
+      </div>
+
+      <div class="section-label">Notifications</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <span class="label">Signal Alert (9:25 AM)</span>
+          <div class="toggle"></div>
+        </div>
+        <div class="settings-row">
+          <span class="label">TP/SL Alert</span>
+          <div class="toggle"></div>
+        </div>
+        <div class="settings-row">
+          <span class="label">EOD Report (3:35 PM)</span>
+          <div class="toggle"></div>
+        </div>
+        <div class="settings-row">
+          <span class="label">Telegram</span>
+          <div class="toggle off"></div>
+        </div>
+      </div>
+
+      <div class="section-label">System</div>
+      <div class="settings-group">
+        <div class="settings-row">
+          <span class="label">API Status</span>
+          <span class="value" style="color:var(--green)">● Online</span>
+        </div>
+        <div class="settings-row">
+          <span class="label">AI Model</span>
+          <span class="value" style="color:var(--green)">● Trained</span>
+        </div>
+        <div class="settings-row">
+          <span class="label">Data Feed</span>
+          <span class="value" style="color:var(--green)">● yfinance OK</span>
+        </div>
+        <div class="settings-row">
+          <span class="label">Auto-Improve</span>
+          <span class="value">Last: 4:00 PM</span>
+        </div>
+      </div>
+
+      <div style="height:16px"></div>
+    </div>
+
+  </div><!-- end scroll-area -->
+
+  <!-- Bottom nav -->
+  <nav class="bottom-nav">
+    <button class="nav-item active" onclick="switchPage('home',this)">
+      <span class="nav-icon">🏠</span>
+      <span class="nav-label">Today</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('perf',this)">
+      <span class="nav-icon">📊</span>
+      <span class="nav-label">Performance</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('hist',this)">
+      <span class="nav-icon">📋</span>
+      <span class="nav-label">History</span>
+    </button>
+    <button class="nav-item" onclick="switchPage('settings',this)">
+      <span class="nav-icon">⚙️</span>
+      <span class="nav-label">Settings</span>
+    </button>
+  </nav>
+
+</div><!-- end shell -->
+
+<script>
+// ── Navigation ────────────────────────────────────────────────
+function switchPage(id, btn) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(b => b.classList.remove('active'));
+  document.getElementById('page-' + id).classList.add('active');
+  btn.classList.add('active');
+  document.querySelector('.scroll-area').scrollTop = 0;
+}
+
+// ── Chart ─────────────────────────────────────────────────────
+const dailyData = [
+  {d:'Jun 9', v:3200}, {d:'Jun 10', v:-1800}, {d:'Jun 11', v:4500},
+  {d:'Jun 12', v:2100}, {d:'Jun 13', v:-2400}, {d:'Jun 16', v:5800},
+  {d:'Jun 17', v:1200}, {d:'Jun 18', v:3600}, {d:'Jun 19', v:-900},
+  {d:'Jun 20', v:4100}, {d:'Jun 23', v:2800}, {d:'Jun 24', v:-1500},
+  {d:'Jun 25', v:3300}, {d:'Jun 26', v:750},
+];
+
+const maxVal = Math.max(...dailyData.map(d => Math.abs(d.v)));
+const chartEl = document.getElementById('chart');
+const labelsEl = document.getElementById('chart-labels');
+
+dailyData.forEach(item => {
+  const pct = Math.abs(item.v) / maxVal * 100;
+  const bar = document.createElement('div');
+  bar.className = 'bar ' + (item.v >= 0 ? 'bar-pos' : 'bar-neg');
+  bar.style.height = pct + '%';
+  bar.title = `${item.d}: ₹${item.v > 0 ? '+' : ''}${item.v.toLocaleString('en-IN')}`;
+  chartEl.appendChild(bar);
+
+  const lbl = document.createElement('span');
+  lbl.textContent = item.d.split(' ')[1];
+  labelsEl.appendChild(lbl);
+});
+
+// ── Real signals: fetched from data/signals.json ────────────────
+// That file is written daily by scripts/daily_scan.py (GitHub Action,
+// ~10:00 AM IST). This just displays whatever is in it right now.
+function dirLabel(dir) { return dir === 'SHORT' ? 'S' : 'B'; }
+function dirClass(dir) { return dir === 'SHORT' ? 'dir-sell' : 'dir-buy'; }
+function fmtRs(n) { return '₹' + Number(n).toLocaleString('en-IN', {maximumFractionDigits: 2}); }
+
+function renderSignalCard(s) {
+  const rr = ((Math.abs(s.tp - s.entry)) / (Math.abs(s.entry - s.sl) || 1)).toFixed(1);
+  return `
+    <div class="signal-card">
+      <div class="card-top">
+        <div class="card-header">
+          <div class="card-symbol">
+            <div class="dir-chip ${dirClass(s.dir)}">${dirLabel(s.dir)}</div>
+            <div>
+              <div class="sym-name">${s.ticker.replace('.NS', '')}</div>
+              <div class="sym-sec">${s.dir === 'SHORT' ? 'Gap-up · Sell setup' : 'Gap-down · Buy setup'}</div>
+            </div>
+          </div>
+          <div class="score-ring">
+            <div class="score-num score-a">${Math.round(s.ml_prob * 100)}</div>
+            <div class="score-lbl">ML SCORE</div>
+          </div>
+        </div>
+        <div class="price-grid">
+          <div class="price-cell"><div class="lbl">Entry</div><div class="val">${fmtRs(s.entry)}</div></div>
+          <div class="price-cell"><div class="lbl">SL</div><div class="val red">${fmtRs(s.sl)}</div></div>
+          <div class="price-cell"><div class="lbl">Target</div><div class="val green">${fmtRs(s.tp)}</div></div>
+          <div class="price-cell"><div class="lbl">Qty</div><div class="val">${s.qty}</div></div>
+        </div>
+      </div>
+      <div class="card-bottom">
+        <div class="card-stats">
+          <div class="stat-item">R:R <strong>${rr}x</strong></div>
+          <div class="stat-item">Win% <strong>${s.win_rate}</strong></div>
+          <div class="stat-item">Gap <strong>${s.gap_pct.toFixed(2)}%</strong></div>
+        </div>
+        <div class="status-badge st-tracking">⏳ Tracking</div>
+      </div>
+    </div>`;
+}
+
+async function loadSignals() {
+  const container = document.getElementById('signals-container');
+  try {
+    const res = await fetch('data/signals.json', {cache: 'no-store'});
+    if (!res.ok) throw new Error('signals.json not found yet');
+    const data = await res.json();
+
+    document.querySelector('.header .sub span:last-child').textContent = data.date || '';
+
+    if (!data.signals || data.signals.length === 0) {
+      container.innerHTML = `<div class="insight-card"><div class="insight-row">
+        <div class="insight-icon">📭</div>
+        <div class="insight-text">Aaj koi qualifying gap-fill signal nahi mila.</div>
+      </div></div>`;
+      return;
+    }
+    container.innerHTML = data.signals.map(renderSignalCard).join('');
+  } catch (e) {
+    container.innerHTML = `<div class="insight-card"><div class="insight-row">
+      <div class="insight-icon">⚠️</div>
+      <div class="insight-text">Signals abhi load nahi hue — pehli baar deploy hone ke baad
+      aur daily scan chalne ke baad yahan data aayega.</div>
+    </div></div>`;
+  }
+}
+
+loadSignals();
+
+// ── Scan button: just re-fetches the latest saved signals.json ──
+function triggerScan() {
+  const btn = document.querySelector('.scan-btn');
+  btn.textContent = 'Refreshing...';
+  btn.style.opacity = '0.6';
+  loadSignals().finally(() => {
+    btn.textContent = 'Scan Now';
+    btn.style.opacity = '1';
+  });
+}
+
+// ── Service worker (installability + basic offline shell) ───────
+if ('serviceWorker' in navigator) {
+  window.addEventListener('load', () => navigator.serviceWorker.register('sw.js'));
+}
+</script>
+</body>
+</html>

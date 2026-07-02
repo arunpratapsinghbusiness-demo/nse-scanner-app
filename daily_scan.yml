@@ -1,0 +1,38 @@
+name: Daily 10AM signal scan
+
+on:
+  schedule:
+    # 04:30 UTC = 10:00 AM IST, Mon-Fri
+    # Note: GitHub's free cron can lag a few minutes during peak load —
+    # for second-level precision see the cron-job.org note in README.md
+    - cron: "30 4 * * 1-5"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+jobs:
+  scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run daily scan
+        env:
+          NTFY_TOPIC: ${{ secrets.NTFY_TOPIC }}
+        run: python scripts/daily_scan.py
+
+      - name: Commit today's signals
+        run: |
+          git config user.name "nse-scanner-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add docs/data/signals.json
+          git diff --cached --quiet || git commit -m "Signals for $(date -u +%F)"
+          git push
