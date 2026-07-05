@@ -1,0 +1,114 @@
+{
+  "generated_at": "2026-07-05T09:32:43.030508",
+  "cv_accuracy": 0.655,
+  "filtered_watchlist": [
+    "HCLTECH.NS",
+    "TECHM.NS",
+    "HINDUNILVR.NS",
+    "BRITANNIA.NS",
+    "MARUTI.NS",
+    "EICHERMOT.NS",
+    "BAJAJ-AUTO.NS",
+    "HEROMOTOCO.NS",
+    "ULTRACEMCO.NS",
+    "SHREECEM.NS",
+    "GRASIM.NS",
+    "SUNPHARMA.NS",
+    "DIVISLAB.NS",
+    "APOLLOHOSP.NS",
+    "TITAN.NS",
+    "ASIANPAINT.NS",
+    "TRENT.NS",
+    "BHARTIARTL.NS",
+    "PAGEIND.NS",
+    "SIEMENS.NS",
+    "ABB.NS",
+    "PERSISTENT.NS",
+    "MPHASIS.NS",
+    "POLYCAB.NS",
+    "CUMMINSIND.NS",
+    "SBILIFE.NS"
+  ],
+  "top_picks": [
+    {
+      "ticker": "SIEMENS.NS",
+      "ml_trades": 15,
+      "win_rate": 100.0,
+      "net_exp_per_trade": 68.48,
+      "avg_risk_pts": 51.65,
+      "avg_entry_price": 3676.61
+    },
+    {
+      "ticker": "ASIANPAINT.NS",
+      "ml_trades": 17,
+      "win_rate": 100.0,
+      "net_exp_per_trade": 32.27,
+      "avg_risk_pts": 27.51,
+      "avg_entry_price": 2578.26
+    },
+    {
+      "ticker": "HCLTECH.NS",
+      "ml_trades": 15,
+      "win_rate": 100.0,
+      "net_exp_per_trade": 11.79,
+      "avg_risk_pts": 13.86,
+      "avg_entry_price": 1158.89
+    },
+    {
+      "ticker": "TECHM.NS",
+      "ml_trades": 20,
+      "win_rate": 95.0,
+      "net_exp_per_trade": 16.65,
+      "avg_risk_pts": 18.93,
+      "avg_entry_price": 1450.73
+    },
+    {
+      "ticker": "MPHASIS.NS",
+      "ml_trades": 17,
+      "win_rate": 94.1,
+      "net_exp_per_trade": 39.83,
+      "avg_risk_pts": 34.36,
+      "avg_entry_price": 2264.73
+    },
+    {
+      "ticker": "MARUTI.NS",
+      "ml_trades": 16,
+      "win_rate": 93.8,
+      "net_exp_per_trade": 97.97,
+      "avg_risk_pts": 89.44,
+      "avg_entry_price": 13267.38
+    },
+    {
+      "ticker": "BHARTIARTL.NS",
+      "ml_trades": 15,
+      "win_rate": 93.3,
+      "net_exp_per_trade": 16.44,
+      "avg_risk_pts": 18.59,
+      "avg_entry_price": 1836.85
+    },
+    {
+      "ticker": "PAGEIND.NS",
+      "ml_trades": 17,
+      "win_rate": 88.2,
+      "net_exp_per_trade": 329.91,
+      "avg_risk_pts": 266.24,
+      "avg_entry_price": 38252.65
+    },
+    {
+      "ticker": "SUNPHARMA.NS",
+      "ml_trades": 16,
+      "win_rate": 87.5,
+      "net_exp_per_trade": 14.03,
+      "avg_risk_pts": 18.78,
+      "avg_entry_price": 1800.03
+    },
+    {
+      "ticker": "HEROMOTOCO.NS",
+      "ml_trades": 15,
+      "win_rate": 86.7,
+      "net_exp_per_trade": 46.21,
+      "avg_risk_pts": 44.09,
+      "avg_entry_price": 5007.35
+    }
+  ]
+}
