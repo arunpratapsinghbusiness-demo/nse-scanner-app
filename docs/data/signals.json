@@ -1,20 +1,35 @@
 {
-  "date": "2026-07-30",
-  "generated_at": "2026-07-30T11:32:46.445569",
+  "date": "2026-07-31",
+  "generated_at": "2026-07-31T11:50:59.620522",
   "signals": [
     {
-      "ticker": "APOLLOHOSP.NS",
-      "dir": "LONG",
-      "entry": 8932.5,
-      "sl": 8880.5,
-      "tp": 8935.0,
-      "risk": 52.0,
-      "gap_pct": -0.3749300503637381,
-      "atr": 19.821428571428573,
+      "ticker": "SUNPHARMA.NS",
+      "dir": "SHORT",
+      "entry": 2013.199951171875,
+      "sl": 2024.800048828125,
+      "tp": 2005.0,
+      "risk": 11.60009765625,
+      "gap_pct": 0.8379076722256857,
+      "atr": 5.864292689732143,
       "vol_ratio": 1.0,
-      "dow": 3,
-      "ml_prob": 0.834,
-      "win_rate": 100.0,
+      "dow": 4,
+      "ml_prob": 0.72,
+      "win_rate": 93.8,
+      "qty": 12
+    },
+    {
+      "ticker": "POLYCAB.NS",
+      "dir": "SHORT",
+      "entry": 9017.0,
+      "sl": 9082.0,
+      "tp": 8919.5,
+      "risk": 65.0,
+      "gap_pct": 0.848314606741573,
+      "atr": 37.5,
+      "vol_ratio": 1.0,
+      "dow": 4,
+      "ml_prob": 0.796,
+      "win_rate": 88.2,
       "qty": 2
     }
   ]
