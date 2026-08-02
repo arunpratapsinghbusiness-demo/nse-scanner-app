@@ -1,11 +1,11 @@
 {
-  "generated_at": "2026-07-26T07:56:50.556758",
-  "cv_accuracy": 0.667,
+  "generated_at": "2026-08-02T07:43:50.060256",
+  "cv_accuracy": 0.685,
   "filtered_watchlist": [
-    "TCS.NS",
     "HCLTECH.NS",
     "TECHM.NS",
     "HINDUNILVR.NS",
+    "NESTLEIND.NS",
     "MARUTI.NS",
     "M&M.NS",
     "EICHERMOT.NS",
@@ -15,8 +15,8 @@
     "SHREECEM.NS",
     "GRASIM.NS",
     "LT.NS",
-    "SUNPHARMA.NS",
     "DIVISLAB.NS",
+    "CIPLA.NS",
     "APOLLOHOSP.NS",
     "TITAN.NS",
     "ASIANPAINT.NS",
@@ -34,68 +34,60 @@
   ],
   "top_picks": [
     {
-      "ticker": "APOLLOHOSP.NS",
-      "ml_trades": 15,
-      "win_rate": 100.0,
-      "net_exp_per_trade": 107.2,
-      "avg_risk_pts": 77.47,
-      "avg_entry_price": 8423.33
-    },
-    {
-      "ticker": "PAGEIND.NS",
-      "ml_trades": 17,
-      "win_rate": 94.1,
-      "net_exp_per_trade": 445.5,
-      "avg_risk_pts": 326.82,
-      "avg_entry_price": 38958.82
+      "ticker": "HAVELLS.NS",
+      "ml_trades": 19,
+      "win_rate": 94.7,
+      "net_exp_per_trade": 5.95,
+      "avg_risk_pts": 10.86,
+      "avg_entry_price": 1182.18
     },
     {
       "ticker": "TECHM.NS",
       "ml_trades": 16,
       "win_rate": 93.8,
-      "net_exp_per_trade": 15.57,
-      "avg_risk_pts": 18.66,
-      "avg_entry_price": 1450.34
-    },
-    {
-      "ticker": "SUNPHARMA.NS",
-      "ml_trades": 16,
-      "win_rate": 93.8,
-      "net_exp_per_trade": 14.06,
-      "avg_risk_pts": 17.47,
-      "avg_entry_price": 1858.36
-    },
-    {
-      "ticker": "HCLTECH.NS",
-      "ml_trades": 19,
-      "win_rate": 89.5,
-      "net_exp_per_trade": 10.48,
-      "avg_risk_pts": 14.99,
-      "avg_entry_price": 1158.52
+      "net_exp_per_trade": 16.22,
+      "avg_risk_pts": 19.09,
+      "avg_entry_price": 1454.3
     },
     {
       "ticker": "POLYCAB.NS",
-      "ml_trades": 17,
-      "win_rate": 88.2,
-      "net_exp_per_trade": 129.81,
-      "avg_risk_pts": 109.06,
-      "avg_entry_price": 9263.97
+      "ml_trades": 15,
+      "win_rate": 93.3,
+      "net_exp_per_trade": 130.85,
+      "avg_risk_pts": 100.57,
+      "avg_entry_price": 9465.0
     },
     {
-      "ticker": "MPHASIS.NS",
-      "ml_trades": 17,
-      "win_rate": 88.2,
-      "net_exp_per_trade": 33.97,
-      "avg_risk_pts": 33.49,
-      "avg_entry_price": 2280.31
+      "ticker": "TITAN.NS",
+      "ml_trades": 15,
+      "win_rate": 93.3,
+      "net_exp_per_trade": 39.44,
+      "avg_risk_pts": 35.01,
+      "avg_entry_price": 4259.01
     },
     {
-      "ticker": "HAVELLS.NS",
+      "ticker": "ASIANPAINT.NS",
+      "ml_trades": 15,
+      "win_rate": 93.3,
+      "net_exp_per_trade": 33.43,
+      "avg_risk_pts": 30.21,
+      "avg_entry_price": 2681.44
+    },
+    {
+      "ticker": "BHARTIARTL.NS",
+      "ml_trades": 15,
+      "win_rate": 93.3,
+      "net_exp_per_trade": 17.88,
+      "avg_risk_pts": 19.63,
+      "avg_entry_price": 1859.75
+    },
+    {
+      "ticker": "HCLTECH.NS",
       "ml_trades": 17,
       "win_rate": 88.2,
-      "net_exp_per_trade": 3.89,
-      "avg_risk_pts": 11.13,
-      "avg_entry_price": 1184.08
+      "net_exp_per_trade": 9.82,
+      "avg_risk_pts": 14.79,
+      "avg_entry_price": 1155.21
     }
   ]
 }
