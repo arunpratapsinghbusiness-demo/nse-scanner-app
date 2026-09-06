@@ -1,19 +1,19 @@
 {
-  "generated_at": "2026-08-30T00:56:23.579637",
-  "cv_accuracy": 0.671,
+  "generated_at": "2026-09-06T00:27:00.835574",
+  "cv_accuracy": 0.672,
   "filtered_watchlist": [
     "TCS.NS",
     "HCLTECH.NS",
-    "TECHM.NS",
     "NESTLEIND.NS",
+    "BRITANNIA.NS",
     "MARUTI.NS",
     "M&M.NS",
     "BAJAJ-AUTO.NS",
     "HEROMOTOCO.NS",
     "ULTRACEMCO.NS",
     "SHREECEM.NS",
-    "GRASIM.NS",
-    "DIVISLAB.NS",
+    "LT.NS",
+    "SUNPHARMA.NS",
     "APOLLOHOSP.NS",
     "TITAN.NS",
     "ASIANPAINT.NS",
@@ -30,43 +30,27 @@
   "top_picks": [
     {
       "ticker": "MPHASIS.NS",
-      "ml_trades": 16,
-      "win_rate": 100.0,
-      "net_exp_per_trade": 36.99,
-      "avg_risk_pts": 30.66,
-      "avg_entry_price": 2370.29
-    },
-    {
-      "ticker": "TECHM.NS",
-      "ml_trades": 16,
-      "win_rate": 100.0,
-      "net_exp_per_trade": 15.5,
-      "avg_risk_pts": 16.33,
-      "avg_entry_price": 1523.77
-    },
-    {
-      "ticker": "NESTLEIND.NS",
       "ml_trades": 15,
-      "win_rate": 93.3,
-      "net_exp_per_trade": 12.94,
-      "avg_risk_pts": 15.41,
-      "avg_entry_price": 1475.19
+      "win_rate": 100.0,
+      "net_exp_per_trade": 37.87,
+      "avg_risk_pts": 31.25,
+      "avg_entry_price": 2399.43
     },
     {
       "ticker": "HAVELLS.NS",
-      "ml_trades": 18,
-      "win_rate": 88.9,
-      "net_exp_per_trade": 3.68,
-      "avg_risk_pts": 10.21,
-      "avg_entry_price": 1210.61
+      "ml_trades": 15,
+      "win_rate": 100.0,
+      "net_exp_per_trade": 7.01,
+      "avg_risk_pts": 10.67,
+      "avg_entry_price": 1210.45
     },
     {
       "ticker": "HCLTECH.NS",
-      "ml_trades": 17,
-      "win_rate": 88.2,
-      "net_exp_per_trade": 11.16,
-      "avg_risk_pts": 15.68,
-      "avg_entry_price": 1182.19
+      "ml_trades": 16,
+      "win_rate": 93.8,
+      "net_exp_per_trade": 16.18,
+      "avg_risk_pts": 18.23,
+      "avg_entry_price": 1225.48
     }
   ]
 }
