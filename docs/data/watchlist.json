@@ -1,10 +1,10 @@
 {
-  "generated_at": "2026-09-13T00:31:34.737277",
-  "cv_accuracy": 0.651,
+  "generated_at": "2026-09-20T00:32:24.511684",
+  "cv_accuracy": 0.654,
   "filtered_watchlist": [
     "BAJAJFINSV.NS",
     "TCS.NS",
-    "HCLTECH.NS",
+    "NESTLEIND.NS",
     "BRITANNIA.NS",
     "MARUTI.NS",
     "M&M.NS",
@@ -14,9 +14,9 @@
     "SHREECEM.NS",
     "LT.NS",
     "SUNPHARMA.NS",
+    "DIVISLAB.NS",
     "APOLLOHOSP.NS",
     "TITAN.NS",
-    "ASIANPAINT.NS",
     "TRENT.NS",
     "PAGEIND.NS",
     "HAVELLS.NS",
@@ -29,28 +29,52 @@
   ],
   "top_picks": [
     {
-      "ticker": "HAVELLS.NS",
-      "ml_trades": 15,
-      "win_rate": 100.0,
-      "net_exp_per_trade": 6.88,
-      "avg_risk_pts": 10.59,
-      "avg_entry_price": 1209.44
+      "ticker": "TCS.NS",
+      "ml_trades": 17,
+      "win_rate": 94.1,
+      "net_exp_per_trade": 26.0,
+      "avg_risk_pts": 24.72,
+      "avg_entry_price": 2248.71
     },
     {
-      "ticker": "HCLTECH.NS",
+      "ticker": "NESTLEIND.NS",
+      "ml_trades": 17,
+      "win_rate": 94.1,
+      "net_exp_per_trade": 9.91,
+      "avg_risk_pts": 14.16,
+      "avg_entry_price": 1468.36
+    },
+    {
+      "ticker": "BAJAJFINSV.NS",
       "ml_trades": 16,
       "win_rate": 93.8,
-      "net_exp_per_trade": 15.19,
-      "avg_risk_pts": 17.58,
-      "avg_entry_price": 1233.98
+      "net_exp_per_trade": 14.88,
+      "avg_risk_pts": 16.81,
+      "avg_entry_price": 1931.2
+    },
+    {
+      "ticker": "HAVELLS.NS",
+      "ml_trades": 16,
+      "win_rate": 93.8,
+      "net_exp_per_trade": 5.95,
+      "avg_risk_pts": 10.88,
+      "avg_entry_price": 1211.81
     },
     {
       "ticker": "MPHASIS.NS",
-      "ml_trades": 15,
-      "win_rate": 93.3,
-      "net_exp_per_trade": 31.12,
-      "avg_risk_pts": 29.63,
-      "avg_entry_price": 2400.64
+      "ml_trades": 16,
+      "win_rate": 87.5,
+      "net_exp_per_trade": 24.83,
+      "avg_risk_pts": 27.82,
+      "avg_entry_price": 2393.49
+    },
+    {
+      "ticker": "SUNPHARMA.NS",
+      "ml_trades": 16,
+      "win_rate": 87.5,
+      "net_exp_per_trade": 10.79,
+      "avg_risk_pts": 16.38,
+      "avg_entry_price": 1913.08
     }
   ]
 }
