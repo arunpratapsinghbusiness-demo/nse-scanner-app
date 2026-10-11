@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-10-04T02:18:09.036621",
-  "cv_accuracy": 0.684,
+  "generated_at": "2026-10-11T01:26:36.981599",
+  "cv_accuracy": 0.676,
   "filtered_watchlist": [
     "BAJAJFINSV.NS",
     "TCS.NS",
@@ -15,13 +15,11 @@
     "HEROMOTOCO.NS",
     "ULTRACEMCO.NS",
     "SHREECEM.NS",
-    "LT.NS",
     "SUNPHARMA.NS",
     "DIVISLAB.NS",
     "APOLLOHOSP.NS",
     "TITAN.NS",
     "TRENT.NS",
-    "BHARTIARTL.NS",
     "PAGEIND.NS",
     "HAVELLS.NS",
     "SIEMENS.NS",
@@ -29,48 +27,49 @@
     "PERSISTENT.NS",
     "MPHASIS.NS",
     "POLYCAB.NS",
-    "CUMMINSIND.NS"
+    "CUMMINSIND.NS",
+    "SBILIFE.NS"
   ],
   "top_picks": [
     {
-      "ticker": "TECHM.NS",
-      "ml_trades": 17,
+      "ticker": "HCLTECH.NS",
+      "ml_trades": 15,
       "win_rate": 100.0,
-      "net_exp_per_trade": 16.63,
-      "avg_risk_pts": 17.09,
-      "avg_entry_price": 1583.21
+      "net_exp_per_trade": 15.35,
+      "avg_risk_pts": 16.23,
+      "avg_entry_price": 1288.56
+    },
+    {
+      "ticker": "TECHM.NS",
+      "ml_trades": 20,
+      "win_rate": 95.0,
+      "net_exp_per_trade": 14.04,
+      "avg_risk_pts": 16.58,
+      "avg_entry_price": 1580.93
     },
     {
       "ticker": "TCS.NS",
-      "ml_trades": 19,
-      "win_rate": 94.7,
-      "net_exp_per_trade": 28.24,
-      "avg_risk_pts": 26.06,
-      "avg_entry_price": 2221.65
-    },
-    {
-      "ticker": "HCLTECH.NS",
       "ml_trades": 18,
       "win_rate": 94.4,
-      "net_exp_per_trade": 13.77,
-      "avg_risk_pts": 16.96,
-      "avg_entry_price": 1272.73
+      "net_exp_per_trade": 26.15,
+      "avg_risk_pts": 24.74,
+      "avg_entry_price": 2221.39
     },
     {
-      "ticker": "MPHASIS.NS",
-      "ml_trades": 15,
-      "win_rate": 86.7,
-      "net_exp_per_trade": 23.85,
-      "avg_risk_pts": 27.81,
-      "avg_entry_price": 2403.57
+      "ticker": "HAVELLS.NS",
+      "ml_trades": 16,
+      "win_rate": 93.8,
+      "net_exp_per_trade": 6.2,
+      "avg_risk_pts": 11.05,
+      "avg_entry_price": 1174.78
     },
     {
       "ticker": "NESTLEIND.NS",
-      "ml_trades": 15,
-      "win_rate": 86.7,
-      "net_exp_per_trade": 9.06,
-      "avg_risk_pts": 14.11,
-      "avg_entry_price": 1444.81
+      "ml_trades": 16,
+      "win_rate": 87.5,
+      "net_exp_per_trade": 8.63,
+      "avg_risk_pts": 13.69,
+      "avg_entry_price": 1446.69
     }
   ]
 }
