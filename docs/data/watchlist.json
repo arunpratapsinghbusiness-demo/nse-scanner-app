@@ -1,6 +1,6 @@
 {
-  "generated_at": "2026-11-15T02:18:34.519444",
-  "cv_accuracy": 0.672,
+  "generated_at": "2026-11-22T02:46:34.056691",
+  "cv_accuracy": 0.685,
   "filtered_watchlist": [
     "BAJAJFINSV.NS",
     "TCS.NS",
@@ -14,6 +14,7 @@
     "HEROMOTOCO.NS",
     "ULTRACEMCO.NS",
     "SHREECEM.NS",
+    "GRASIM.NS",
     "LT.NS",
     "SUNPHARMA.NS",
     "DIVISLAB.NS",
@@ -33,44 +34,52 @@
   ],
   "top_picks": [
     {
-      "ticker": "MPHASIS.NS",
-      "ml_trades": 18,
+      "ticker": "PERSISTENT.NS",
+      "ml_trades": 15,
       "win_rate": 100.0,
-      "net_exp_per_trade": 41.4,
-      "avg_risk_pts": 33.6,
-      "avg_entry_price": 2445.08
+      "net_exp_per_trade": 122.5,
+      "avg_risk_pts": 87.67,
+      "avg_entry_price": 5659.07
     },
     {
       "ticker": "TECHM.NS",
       "ml_trades": 21,
       "win_rate": 100.0,
-      "net_exp_per_trade": 20.41,
-      "avg_risk_pts": 19.61,
-      "avg_entry_price": 1635.93
+      "net_exp_per_trade": 23.07,
+      "avg_risk_pts": 21.38,
+      "avg_entry_price": 1663.3
+    },
+    {
+      "ticker": "MPHASIS.NS",
+      "ml_trades": 18,
+      "win_rate": 94.4,
+      "net_exp_per_trade": 44.31,
+      "avg_risk_pts": 36.92,
+      "avg_entry_price": 2431.66
     },
     {
       "ticker": "HCLTECH.NS",
-      "ml_trades": 16,
-      "win_rate": 93.8,
-      "net_exp_per_trade": 16.8,
-      "avg_risk_pts": 19.11,
-      "avg_entry_price": 1321.78
+      "ml_trades": 17,
+      "win_rate": 94.1,
+      "net_exp_per_trade": 17.06,
+      "avg_risk_pts": 19.16,
+      "avg_entry_price": 1321.26
     },
     {
       "ticker": "SIEMENS.NS",
-      "ml_trades": 15,
-      "win_rate": 93.3,
-      "net_exp_per_trade": 55.5,
-      "avg_risk_pts": 45.83,
-      "avg_entry_price": 3711.27
+      "ml_trades": 18,
+      "win_rate": 88.9,
+      "net_exp_per_trade": 47.99,
+      "avg_risk_pts": 43.71,
+      "avg_entry_price": 3662.72
     },
     {
       "ticker": "TCS.NS",
-      "ml_trades": 25,
-      "win_rate": 88.0,
-      "net_exp_per_trade": 19.7,
-      "avg_risk_pts": 24.84,
-      "avg_entry_price": 2287.72
+      "ml_trades": 22,
+      "win_rate": 86.4,
+      "net_exp_per_trade": 21.93,
+      "avg_risk_pts": 27.11,
+      "avg_entry_price": 2285.0
     }
   ]
 }
